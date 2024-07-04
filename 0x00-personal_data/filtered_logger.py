@@ -69,32 +69,25 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 def main():
-    """main"""
-    connection = get_db()
-    if connection is None:
-        return
+    """Logs the information about user records"""
+    fields = ["name", "email", "phone", "ssn", "password",
+              "ip", "last_login", "user_agent"]
+    query = f"SELECT {', '.join(fields)} FROM users;"
 
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM users")
-    rows = cursor.fetchall()
+    logger = get_logger()
+    connection = get_db()
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
 
     for row in rows:
-        masked_row = {
-            "name": "***",
-            "email": "***",
-            "phone": "***",
-            "ssn": "***",
-            "password": "***",
-            "ip": row["ip"],
-            "last_login": row["last_login"].isoformat(),
-            "user_agent": row["user_agent"]
-        }
-        log_message = "; ".join([f"{key}={value}"
-                                 for key, value in masked_row.items()]) + ";"
-        logging.info(log_message)
-
-    cursor.close()
-    connection.close()
+        zipped = zip(fields, row)
+        recorded_parts = [f"{col}={val}" for col, val in zipped]
+        record = "; ".join(recorded_parts)
+        params = ("user_data", logging.INFO, None, None, record, None, None)
+        log_record = logging.LogRecord(params)
+        logger.handle(log_record)
 
 
 if __name__ == "__main__":

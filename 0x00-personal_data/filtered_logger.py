@@ -8,7 +8,7 @@ import mysql.connector
 from mysql.connector.connection import MySQLConnection
 from typing import List, Tuple
 
-PII_FIELDS: Tuple[str, ...] = ("email", "phone", "ssn", "password", "ip")
+PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
 
 
 class RedactingFormatter(logging.Formatter):

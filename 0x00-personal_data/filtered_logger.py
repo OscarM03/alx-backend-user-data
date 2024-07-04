@@ -3,6 +3,9 @@
 
 import re
 import logging
+import os
+import mysql.connector
+from mysql.connector.connection import MySQLConnection
 from typing import List, Tuple
 
 PII_FIELDS: Tuple[str, ...] = ("email", "phone", "ssn", "password", "ip")
@@ -45,3 +48,19 @@ def get_logger() -> logging.Logger:
     formatter = RedactingFormatter(PII_FIELDS)
     handler.setFormatter(formatter)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """Returns a MySQLConnection object"""
+    db_username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
+    db_pwd = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.getenv("PERSONAL_DATA_DB_NAME")
+
+    connection = mysql.connector.connect(
+        user=db_username,
+        password=db_pwd,
+        host=db_host,
+        database=db_name
+    )
+    return connection

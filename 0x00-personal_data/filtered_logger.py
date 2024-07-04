@@ -66,3 +66,32 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         database=db_name
     )
     return connection
+
+
+def main():
+    """main"""
+    connection = get_db()
+    if connection is None:
+        return
+
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        masked_row = {
+            "name": "***",
+            "email": "***",
+            "phone": "***",
+            "ssn": "***",
+            "password": "***",
+            "ip": row["ip"],
+            "last_login": row["last_login"].isoformat(),
+            "user_agent": row["user_agent"]
+        }
+        log_message = "; ".join([f"{key}={value}"
+                                 for key, value in masked_row.items()]) + ";"
+        logging.info(log_message)
+
+    cursor.close()
+    connection.close()

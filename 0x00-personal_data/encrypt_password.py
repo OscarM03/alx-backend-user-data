@@ -3,10 +3,8 @@
 import bcrypt
 
 
-def hash_password(password: str) -> str:
+def hash_password(password: str) -> bytes:
     """returns a salted, hashed password"""
     bytes_pwd = password.encode('utf-8')
-
-    salt = bcrypt.gensalt()
-    hashed_pwd = bcrypt.hashpw(bytes_pwd, salt)
+    hashed_pwd = bcrypt.hashpw(bytes_pwd, bcrypt.gensalt())
     return hashed_pwd

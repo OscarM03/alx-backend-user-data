@@ -10,10 +10,11 @@ class Auth:
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
         Determine if the path requires authentication.
-        
+
         Args:
             path (str): The path to check.
-            excluded_paths (List[str]): A list of paths that do not require authentication.
+            excluded_paths (List[str]): A list of paths that do
+            not require authentication.
 
         Returns:
             bool: False for now.
@@ -23,7 +24,7 @@ class Auth:
     def authorization_header(self, request=None) -> str:
         """
         Retrieve the Authorization header from the request.
-        
+
         Args:
             request: The Flask request object.
 
@@ -35,7 +36,7 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """
         Retrieve the current user from the request.
-        
+
         Args:
             request: The Flask request object.
 

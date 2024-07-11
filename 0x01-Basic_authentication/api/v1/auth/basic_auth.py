@@ -51,9 +51,9 @@ class BasicAuth(Auth):
         return (email, pwd)
 
     def user_object_from_credentials(
-        self,
-        user_email: str,
-        user_pwd: str) -> TypeVar('User'):
+            self,
+            user_email: str,
+            user_pwd: str) -> TypeVar('User'):
         """Task 10: Retrieves a user based on the user's
         authentication credentials.
         """
@@ -75,7 +75,6 @@ class BasicAuth(Auth):
             return user
 
         return None
-
 
     def current_user(self, request=None) -> TypeVar('User'):
         """Basic - Overload current_user"""

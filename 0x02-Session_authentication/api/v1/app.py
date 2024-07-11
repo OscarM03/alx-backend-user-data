@@ -25,6 +25,9 @@ if auth_used == 'basic_auth':
 if auth_used == 'session_auth':
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
+if auth_used == 'session_exp_auth':
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
 
 
 @app.errorhandler(404)

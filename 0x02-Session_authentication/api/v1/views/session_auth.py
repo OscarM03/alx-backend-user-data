@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """login view"""
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, abort
 from api.v1.views import app_views
 from models.user import User
 import os
 
 
 @app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
-def login_details():
+def login():
     """login authentication"""
     email = request.form.get('email')
     pwd = request.form.get('password')
@@ -32,3 +32,16 @@ def login_details():
     session_name = os.getenv('SESSION_NAME')
     response.set_cookie(session_name, session_id)
     return response
+
+
+@app_views.route(
+        '/auth_session/logout',
+        methods=['DELETE'],
+        strict_slashes=False)
+def logout():
+    """Logout"""
+    from api.v1.app import auth
+    res = auth.destroy_session(request)
+    if not res:
+        abort(404)
+    return jsonify({}), 200

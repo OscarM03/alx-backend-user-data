@@ -62,8 +62,6 @@ def before_request():
 
         if header is None and cookie_value is None:
             abort(401)
-        if header is None:
-            abort(401)
         if user is None:
             abort(403)
 

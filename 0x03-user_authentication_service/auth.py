@@ -2,6 +2,7 @@
 """auth module"""
 
 import bcrypt
+import uuid
 from db import DB
 from user import User
 from sqlalchemy.orm.exc import NoResultFound
@@ -22,6 +23,10 @@ class Auth:
     def __init__(self):
         "New instance"
         self._db = DB()
+
+    def _generate_uuid():
+        """generates uuid"""
+        return str(uuid.uuid4())
 
     def register_user(self, email: str, password: str) -> User:
         """Registers a new user"""

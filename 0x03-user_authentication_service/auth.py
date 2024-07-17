@@ -21,10 +21,10 @@ class Auth:
     """
 
     def __init__(self):
-        "New instance"
+        "Initialize a new instance of Auth"
         self._db = DB()
 
-    def _generate_uuid():
+    def _generate_uuid(self) -> str:
         """generates uuid"""
         return str(uuid.uuid4())
 
